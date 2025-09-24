@@ -39,3 +39,30 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# --- Editors / OS ---
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+Thumbs.db
+
+# --- Node / Tooling caches ---
+.eslintcache
+.nyc_output/
+*.swp
+*~
+
+# --- Prisma ---
+# If you ever use SQLite locally for tests/dev
+prisma/*.db
+prisma/*.db-journal
+
+# --- Supabase CLI ---
+supabase/.temp/
+supabase/.branches/
+.supabase/
+
+# --- Sentry (local auth/config; keep tokens out of git) ---
+.sentryclirc
+.sentrycache/
