@@ -1,20 +1,41 @@
+# ChatGPT Clone with Context
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+It will evolve into a ChatGPT-style app with contextual memory, using:
+
+- Next.js (App Router, TypeScript)
+- Tailwind CSS + shadcn/ui
+- Supabase (Postgres + pgvector, Auth)
+- Prisma ORM
+- Vercel for deployment
+- Sentry for error monitoring
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
+````
+
+Run the development server:
+
+```bash
 pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+Build for prod:
+```bash
+pnpm build
+```
+
+Run prod:
+```bash
+pnpm start
+```
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
