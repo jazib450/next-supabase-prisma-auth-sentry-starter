@@ -1,18 +1,24 @@
+// src/app/api/debug/seed/route.ts
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { createSupabaseFromRequest } from "@/lib/supabase/from-request";
 
-// Dummy user id (UUID).
-const DUMMY_USER_ID = "00000000-0000-0000-0000-000000000000";
+export async function POST(request: Request) {
+  // Auth gate
+  const supabase = await createSupabaseFromRequest(request);
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
-export async function POST() {
   const convo = await prisma.conversation.create({
-    data: { userId: DUMMY_USER_ID, title: "First conversation" },
+    data: { userId: user.id, title: "First conversation" },
   });
 
   await prisma.message.create({
     data: {
       conversationId: convo.id,
-      userId: DUMMY_USER_ID,
+      userId: user.id,
       role: "user",
       content: "Hello?",
     },
@@ -21,7 +27,7 @@ export async function POST() {
   await prisma.message.create({
     data: {
       conversationId: convo.id,
-      userId: DUMMY_USER_ID,
+      userId: user.id,
       role: "assistant",
       content: "Hi! 👋",
     },
