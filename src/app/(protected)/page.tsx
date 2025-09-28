@@ -1,5 +1,4 @@
 // src/app/(protected)/page.tsx
-import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import DemoForm from "@/components/demo-form";
 import { SignOutButton } from "@/components/sign-out-button";

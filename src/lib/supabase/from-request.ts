@@ -6,6 +6,11 @@ import type { CookieOptions } from "@supabase/ssr";
 const URL  = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const ANON = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
+// Explicit type for mutable cookie jar
+type MutableCookies = {
+  set: (name: string, value: string, options?: CookieOptions) => void;
+};
+
 export async function createSupabaseFromRequest(req: Request) {
   const jar = await cookies();
   const auth = req.headers.get("authorization") || undefined; // "Bearer <jwt>"
@@ -21,7 +26,7 @@ export async function createSupabaseFromRequest(req: Request) {
         try {
           items.forEach(({ name, value, options }) => {
             // Next 14/15 route handlers support .set(name, value, options)
-            (jar as any).set(name, value, options);
+            if ("set" in jar) (jar as unknown as MutableCookies).set(name, value, options);
           });
         } catch {
           // read-only context -> no-op
