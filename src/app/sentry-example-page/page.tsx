@@ -12,16 +12,15 @@ class SentryExampleFrontendError extends Error {
   }
 }
 
+const isDev = process.env.NODE_ENV === "development";
+
 export default function Page() {
-  // Hide the page in non-dev
-  if (process.env.NODE_ENV !== "development") {
-    return null;
-  }
-  
   const [hasSentError, setHasSentError] = useState(false);
   const [isConnected, setIsConnected] = useState(true);
   
   useEffect(() => {
+    if (!isDev) { return; } // Gate side-effects to dev only
+    
     Sentry.logger.info('User triggered test log', { log_source: 'sentry_test' }); // FOR DEBUGGING IN SENTRY DASHBOARD
     async function checkConnectivity() {
       const result = await Sentry.diagnoseSdkConnectivity();
@@ -29,6 +28,9 @@ export default function Page() {
     }
     checkConnectivity();
   }, []);
+
+  // Hide the page in non-dev
+  if (!isDev) { return null; }
 
   return (
     <div>
