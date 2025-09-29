@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ChatGPT Clone",
-  description: "ChatGPT-style app with context",
+  title: "Next.js Supabase Prisma Starter",
+  description: "Next.js app with Supabase and Prisma",
 };
 
 export default function RootLayout({

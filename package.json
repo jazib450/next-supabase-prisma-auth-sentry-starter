@@ -1,5 +1,5 @@
 {
-  "name": "chatgpt-clone",
+  "name": "nextjs-supabase-prisma-starter",
   "version": "0.1.0",
   "private": true,
   "scripts": {
