@@ -1,0 +1,39 @@
+name: Migrate Staging
+
+on:
+  push:
+    branches: [ staging ]
+    # Only run when migrations changed (optional but nice)
+    paths:
+      - "prisma/migrations/**"
+      - "prisma/schema.prisma"
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install deps
+        run: pnpm install --frozen-lockfile
+
+      # Prisma Migrate will prefer directUrl. To be extra safe,
+      # we also set DATABASE_URL to the same direct value here.
+      - name: Run prisma migrate deploy (staging)
+        env:
+          DIRECT_URL: ${{ secrets.DIRECT_URL_STAGING }}
+          DATABASE_URL: ${{ secrets.DIRECT_URL_STAGING }}
+        run: pnpm prisma migrate deploy
