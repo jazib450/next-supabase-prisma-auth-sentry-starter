@@ -80,10 +80,30 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
 ## Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Important Note on Database & Migrations
+
+This project uses Supabase (Postgres) + Prisma.  
+⚠️ Important: Supabase provides multiple connection strings. Which one to use depends on context:
+
+- **Local development:** use the **Direct connection** URL. Fastest for DX.
+- **Vercel runtime:** use the **Transaction pooler** URL. Scales for serverless apps.
+- **GitHub Actions (migrations):** use the **Session pooler** URL. Transaction pooler breaks Prisma migrations; Session pooler works and is IPv4-compatible.
+
+### Running migrations
+- **Local dev:**  
+  ```bash
+  pnpm prisma migrate dev
+  ```
+- **Staging / Prod CI:**  
+  Migrations are deployed via GitHub Actions. To enable this:
+    1.	There is a workflow file at .github/workflows/migrate-staging.yml (and migrate-prod.yml for production).
+    2.	The workflow runs ```pnpm prisma migrate deploy``` against the appropriate database.
+    3.	Make sure to store your database connection strings (session pooler) as GitHub repo secrets (```DIRECT_URL_STAGING```, ```DIRECT_URL_PROD```).
+
+  This ensures schema changes are always applied safely before your Next.js app goes live.
