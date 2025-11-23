@@ -18,6 +18,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Next.js Supabase Prisma Starter",
   description: "Next.js app with Supabase and Prisma",
+  icons: {
+    icon: "/logo/rand.png",
+  },
 };
 
 export default function RootLayout({
