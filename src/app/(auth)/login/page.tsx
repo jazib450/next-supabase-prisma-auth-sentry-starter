@@ -17,7 +17,7 @@ export default function LoginPage() {
   const signInWithGoogle = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: `${location.origin}/auth/callback` },
+      options: { redirectTo: `${location.origin}/api/auth/callback` },
     });
     if (error) toast.error(error.message);
   };
@@ -25,7 +25,7 @@ export default function LoginPage() {
   // const signInWithGitHub = async () => {
   //   const { error } = await supabase.auth.signInWithOAuth({
   //     provider: "github",
-  //     options: { redirectTo: `${location.origin}/auth/callback` },
+  //     options: { redirectTo: `${location.origin}/api/auth/callback` },
   //   });
   //   if (error) toast.error(error.message);
   // };
@@ -34,7 +34,7 @@ export default function LoginPage() {
   //   e.preventDefault();
   //   const { error } = await supabase.auth.signInWithOtp({
   //     email,
-  //     options: { emailRedirectTo: `${location.origin}/auth/callback` },
+  //     options: { emailRedirectTo: `${location.origin}/api/auth/callback` },
   //   });
   //   if (error) toast.error(error.message);
   //   else toast.success("Check your email for a magic link");
